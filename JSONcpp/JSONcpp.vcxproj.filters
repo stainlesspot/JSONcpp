@@ -18,5 +18,8 @@
     <ClInclude Include="JSON.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Fundamentals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
