@@ -11,7 +11,7 @@ namespace json
 	class Value;
 
 	class Object {
-		std::unordered_map<std::string, Value> m_variables;
+		std::unordered_map<std::string, Value> m_properties;
 
 	public:
 		Object(std::string expression);
@@ -20,6 +20,9 @@ namespace json
 		Object(const Object&) = default;
 		Object(Object&&) = default;
 		~Object() = default;
+
+		Value& operator[](const std::string&);
+
 	};
 
 
@@ -39,7 +42,7 @@ namespace json
 	enum class ValueType {
 		Null,
 		Bool,
-		Integer,
+		Number,
 		String,
 		Array,
 		Object
@@ -50,7 +53,7 @@ namespace json
 		ValueType type;
 
 		std::unique_ptr<bool> m_bool;
-		std::unique_ptr<int> m_number;
+		std::unique_ptr<double> m_number;
 		std::unique_ptr<std::string> m_string;
 		std::unique_ptr<Array> m_array;
 		std::unique_ptr<Object> m_object;
@@ -58,8 +61,9 @@ namespace json
 
 		Value();
 
+		Value(std::nullptr_t);
 		Value(const bool);
-		Value(const int);
+		Value(const double);
 		Value(const std::string&);
 		Value(const Array&);
 		Value(const Object&);
@@ -71,16 +75,24 @@ namespace json
 		Value& extractFrom(std::string expression);
 
 		operator bool();
-		operator int();
+		operator double();
 		operator std::string();
 		operator Array();
 		operator Object();
 
+		Value& operator =(std::nullptr_t);
+
 		Value& operator =(const bool);
-		Value& operator =(const int);
+		Value& operator =(const double);
+
 		Value& operator =(const std::string&);
+		Value& operator =(std::string&&);
+		
 		Value& operator =(const Array&);
+		Value& operator =(Array&&);
+
 		Value& operator =(const Object&);
+		Value& operator =(Object&&);
 
 		Value& operator =(const Value&) = default;
 		Value& operator =(Value&&) = default;
